@@ -1,0 +1,28 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: FastAPI-Mangum-Lambda-API-Gateway
+Globals:
+  Function:
+    Timeout: 60
+Parameters:
+  Stage:
+    Type: String
+    Default: development
+Resources:
+  LambdaFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Sub 'my-fastapi-function-${Stage}'
+      CodeUri: ./
+      Handler: main.handler
+      Runtime: python3.8
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /{proxy+}
+            Method: ANY
+Outputs:
+  ApiURL:
+    Description: "API Gateway URL"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/${Stage}/"
