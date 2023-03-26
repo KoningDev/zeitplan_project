@@ -1,3 +1,8 @@
-fastapi
-uvicorn
-mangum
+fastapi==0.75.1
+mangum==0.14.1
+uvicorn==0.17.6
+requests==2.27.1
+peewee==3.14.10
+mysql-connector-python==8.0.29
+pydantic~=1.9.0
+starlette~=0.17.1

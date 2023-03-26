@@ -1,28 +1,41 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Transform: AWS::Serverless-2016-10-31
-Description: FastAPI-Mangum-Lambda-API-Gateway
-Globals:
-  Function:
-    Timeout: 60
-Parameters:
-  Stage:
-    Type: String
-    Default: development
+Transform: 'AWS::Serverless-2016-10-31'
 Resources:
-  LambdaFunction:
-    Type: AWS::Serverless::Function
+  zeitplanFuncion:
+    Type: 'AWS::Serverless::Function'
     Properties:
-      FunctionName: !Sub 'my-fastapi-function-${Stage}'
-      CodeUri: ./
       Handler: main.handler
       Runtime: python3.8
+      CodeUri: .
+      Timeout: 10
       Events:
-        Api:
+        zeitplanEquipoEliminar:
           Type: Api
           Properties:
-            Path: /{proxy+}
-            Method: ANY
-Outputs:
-  ApiURL:
-    Description: "API Gateway URL"
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/${Stage}/"
+            Path: /v1/equipos/{equipo_id}
+            Method: delete
+        zeitplanEquipoObtener:
+          Type: Api
+          Properties:
+            Path: /v1/equipos/{equipo_id}
+            Method: get
+        zeitplanEquipoAgregar:
+          Type: Api
+          Properties:
+            Path: /v1/equipos
+            Method: post
+        zeitplanUsuarioEliminar:
+          Type: Api
+          Properties:
+            Path: /v1/usuario/{usuario_id}
+            Method: delete
+        zeitplanUsuarioObtener:
+          Type: Api
+          Properties:
+            Path: /v1/usuario/{usuario_id}
+            Method: get
+        zeitplanUsuarioAgregar:
+          Type: Api
+          Properties:
+            Path: /v1/usuario/
+            Method: post
