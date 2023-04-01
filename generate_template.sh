@@ -6,12 +6,12 @@ echo "Creando template a las: $HORA"
 echo "AWSTemplateFormatVersion: '2010-09-09'" > template.yaml
 echo "Transform: 'AWS::Serverless-2016-10-31'" >> template.yaml
 echo "Resources:" >> template.yaml
-echo "  zeitplanFuncion:" >> template.yaml
+echo "  zeitplanFastApi:" >> template.yaml
 echo "    Type: 'AWS::Serverless::Function'" >> template.yaml
 echo "    Properties:" >> template.yaml
 echo "      Handler: main.handler" >> template.yaml
 echo "      Runtime: python3.8" >> template.yaml
-echo "      CodeUri: ." >> template.yaml
+echo "      CodeUri: ./app" >> template.yaml
 echo "      Timeout: 10" >> template.yaml
 echo "      Events:" >> template.yaml
 
@@ -29,5 +29,15 @@ for api_routes_file in $(find app/api/* -name "routes.py"); do
   echo "            Path: ${api_route}" >> template.yaml
   echo "            Method: ${metodo}" >> template.yaml
 done
+
+echo "      Layers:" >> template.yaml
+echo "        - !Ref zeitplanLayer" >> template.yaml
+
+echo "  zeitplanLayer:" >> template.yaml
+echo "    Type: 'AWS::Serverless::LayerVersion'" >> template.yaml
+echo "    Properties:" >> template.yaml
+echo "      CompatibleRuntimes:" >> template.yaml
+echo "        - python3.8" >> template.yaml
+echo "      ContentUri: ./dependencies.zip" >> template.yaml
 
 echo "Finalizando template a las: $HORA"

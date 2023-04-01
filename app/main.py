@@ -1,11 +1,14 @@
 from fastapi import FastAPI
 from mangum import Mangum
-from app.api.api_uno.routes import router as api1_router
-from app.api.api_dos.routes import router as api2_router
+
+from app.api.Equipos.GET.routes import router as get_equipo
+from app.api.Equipos.DELETE.routes import router as delete_equipo
+from app.api.Equipos.POST.routes import router as post_equipo
 
 app = FastAPI()
 
-app.include_router(api1_router, prefix="/api1")
-app.include_router(api2_router, prefix="/api2")
+app.include_router(get_equipo, prefix="/equipo/{equipo_id}")
+app.include_router(delete_equipo, prefix="/equipo/{equipo_id}")
+app.inclute_router(post_equipo, prefix="/equipo")
 
 handler = Mangum(app)
